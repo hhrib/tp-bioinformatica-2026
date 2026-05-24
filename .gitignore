@@ -1,0 +1,5 @@
+output/
+data/swissprot/
+__pycache__/
+*.pyc
+.env

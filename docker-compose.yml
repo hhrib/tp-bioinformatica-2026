@@ -1,0 +1,10 @@
+services:
+  tp:
+    build: .
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+      - ./output:/app/output
+    working_dir: /app
+    stdin_open: true
+    tty: true
