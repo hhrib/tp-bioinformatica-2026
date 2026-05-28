@@ -1,4 +1,6 @@
 output/
+data/swissprot
+data/swissprot.gz
 data/swissprot/
 data/swissprotdb/
 __pycache__/
