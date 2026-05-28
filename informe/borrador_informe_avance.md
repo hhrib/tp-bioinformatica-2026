@@ -186,9 +186,9 @@ Las especies incluidas en el MSA son:
 
 ### Interpretación del alineamiento
 
-**Conservación general:** los símbolos `*` en el alineamiento indican posiciones idénticas en todas las especies. Las regiones con alta densidad de `*` corresponden a dominios funcionalmente críticos de la proteína huntingtina.
+Al abrir el archivo de alineamiento lo primero que se ve son los símbolos `*`: indican posiciones donde todas las especies tienen el mismo aminoácido. Hay muchos en la parte central y final de la secuencia, lo que significa que esas regiones se mantuvieron iguales a lo largo de la evolución.
 
-**Observación clave — región poliglutamina (polyQ):**
+Lo más llamativo está al principio de la secuencia:
 
 ```
 HD_HUMAN   MATLEKLMKAFESLKSFQQQQQQQQQQQQQQQQQQQPPPPP...
@@ -198,11 +198,9 @@ HD_TAKRU   MATMEKLMKAFESLKSFQQQQG...
 HD_DICDI   ----------------------------------------------------------MD
 ```
 
-La región de repeticiones de glutamina (Q) en el extremo N-terminal de la proteína es directamente observable en el alineamiento. Los humanos presentan una región polyQ significativamente más extensa que el resto de los vertebrados, y es en esta misma región donde la expansión patológica de repeticiones CAG causa la Enfermedad de Huntington. Esta observación conecta directamente el análisis bioinformático con el mecanismo molecular de la enfermedad.
+La secuencia humana tiene una cadena mucho más larga de Q repetidas que el resto de las especies. Esa región es exactamente donde ocurre la expansión de repeticiones CAG que causa la enfermedad — cada Q en la proteína corresponde a un CAG en el ADN. Verlo directamente en el alineamiento fue bastante impactante porque conecta todo el análisis con la causa molecular de la enfermedad.
 
-**Conservación entre vertebrados:** las secuencias de humano, ratón, rata y pez globo muestran amplias regiones de alta conservación (`*` y `:`), especialmente en la mitad C-terminal de la proteína, donde se concentran los dominios funcionalmente conservados.
-
-**Divergencia con Dictyostelium:** el alineamiento con la ameba muestra menor conservación general, aunque persisten bloques conservados distribuidos a lo largo de toda la secuencia, corroborando el origen evolutivo antiguo del gen.
+En el resto de la secuencia, ratón y rata son muy similares a la humana. El pez globo tiene más diferencias pero todavía comparte bastantes posiciones. La ameba es la que más gaps tiene y menos `*` muestra, aunque aparecen algunos bloques conservados en distintos lugares de la secuencia.
 
 ### Conclusión del ejercicio
 
@@ -216,13 +214,11 @@ Al ver el alineamiento lo primero que se nota es que ratón y rata son casi igua
 
 ## 7. Conclusión
 
-El análisis bioinformático del gen HTT permitió:
+Este trabajo me resultó más interesante de lo que esperaba. Empezamos con un archivo de texto en formato GenBank y terminamos viendo en el alineamiento la región exacta que causa la enfermedad.
 
-1. Identificar el marco de lectura correcto (+2) de entre 6 posibles, produciendo una proteína de 3192 aminoácidos coherente con la huntingtina humana conocida.
-2. Confirmar mediante BLAST que la huntingtina está conservada en vertebrados (69-91% de identidad) y que tiene homólogos incluso en organismos unicelulares como *Dictyostelium discoideum*, lo que sugiere una función celular fundamental de más de 1.000 millones de años de antigüedad.
-3. Visualizar directamente en el MSA la región polyQ que causa la Enfermedad de Huntington, observando cómo esta región es más extensa en humanos que en otras especies.
+Lo que más me quedó fue la progresión: el ejercicio 1 traduce los 6 frames sin saber cuál es el correcto, el ejercicio 2 lo identifica a través de BLAST, y el ejercicio 3 permite visualizar las diferencias entre especies. Cada paso tiene sentido en función del siguiente.
 
-Estos resultados ilustran cómo las herramientas bioinformáticas permiten conectar la información genómica con el mecanismo molecular de una enfermedad hereditaria.
+La sorpresa fue la ameba. Que un organismo tan distinto a nosotros tenga una versión del mismo gen sugiere que la proteína cumple alguna función muy básica — algo que no habría notado sin hacer el análisis. Y ver en el alineamiento que la cadena de Q repetidas es más larga en humanos que en cualquier otra especie cierra el círculo con la causa molecular de la enfermedad.
 
 ---
 
