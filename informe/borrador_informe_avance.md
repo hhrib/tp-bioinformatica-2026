@@ -8,15 +8,15 @@
 
 ### Enfermedad elegida: Enfermedad de Huntington
 
-La Enfermedad de Huntington (EH) es una enfermedad neurodegenerativa hereditaria autosómica dominante, catalogada en OMIM bajo el número #143100. Se caracteriza por el deterioro progresivo de las funciones motoras, cognitivas y psiquiátricas, llevando inevitablemente a la muerte entre 10 y 30 años después de la aparición de los síntomas.
+La Enfermedad de Huntington (EH) es una enfermedad hereditaria catalogada en OMIM bajo el número #143100. La elegimos porque tiene una causa genética muy clara y bien documentada, lo que la hace ideal para trabajar con herramientas bioinformáticas. Se caracteriza por un deterioro progresivo que afecta el movimiento, la cognición y el comportamiento, y no tiene cura.
 
-A diferencia de la mayoría de las enfermedades, la EH no tiene portadores sanos: cualquier persona que herede el alelo mutado del gen HTT desarrollará la enfermedad a lo largo de su vida. Esto la convierte en un caso de estudio central en genética y bioinformática.
+Lo que más nos llamó la atención al investigarla es que no existen portadores sanos: cualquier persona que herede el alelo mutado va a desarrollar la enfermedad en algún momento de su vida. Eso la hace diferente a la mayoría de las enfermedades hereditarias.
 
-**Causa molecular:** la enfermedad es causada por una expansión anormal de repeticiones del triplete CAG (citosina-adenina-guanina) en el exón 1 del gen HTT. En individuos sanos, el número de repeticiones es menor a 36. Cuando supera ese umbral, la proteína huntingtina resultante se vuelve tóxica para las neuronas. A mayor número de repeticiones, mayor severidad y menor edad de inicio de la enfermedad.
+**Causa molecular:** la enfermedad es causada por una expansión de repeticiones del triplete CAG en el gen HTT. En personas sanas el número de repeticiones es menor a 36; cuando supera ese umbral, la proteína producida se vuelve tóxica para las neuronas. A mayor número de repeticiones, más grave y más temprana es la enfermedad.
 
 ### Gen elegido: HTT (Huntingtin)
 
-El gen HTT, ubicado en el cromosoma 4 (4p16.3), codifica para la proteína huntingtina, una proteína de gran tamaño (~3144 aminoácidos) cuya función normal incluye el transporte intracelular, la supervivencia neuronal y la regulación de la transcripción génica. La secuencia de referencia utilizada en este trabajo es el transcripto **NM_002111.8** obtenido de la base de datos NCBI Nucleotide.
+El gen HTT está en el cromosoma 4 y codifica para la proteína huntingtina. Según la base de datos SwissProt, la proteína tiene alrededor de 3144 aminoácidos. La secuencia de referencia que usamos en este trabajo es el transcripto **NM_002111.8** obtenido de NCBI Nucleotide.
 
 ---
 
@@ -51,7 +51,8 @@ Se desarrolló el script `src/ex1_reading_frames.py` que realiza las siguientes 
 3. Calcula los **6 marcos de lectura posibles**: +1, +2, +3 sobre la cadena directa y -1, -2, -3 sobre el complemento reverso
 4. Traduce cada marco a su secuencia de aminoácidos usando la tabla de código genético estándar
 5. Escribe los 6 resultados en el archivo `output/orfs.fasta` en formato FASTA
-6. Identifica el marco de lectura correcto como aquel que produce la proteína más larga antes del primer codón de stop
+
+**Nota de implementación:** Al investigar las herramientas disponibles se encontró que BioPerl ofrece `Bio::SeqUtils->translate_6frames()`, función que calcula los 6 marcos de lectura incluyendo los frames negativos (-1, -2, -3) sobre el complemento reverso de la secuencia, y devuelve 6 objetos de secuencia directamente utilizables. BioPython cuenta con `Bio.SeqUtils.six_frame_translations()` que realiza el mismo cálculo pero devuelve un string formateado para visualización, no objetos procesables. Por este motivo se implementó la función `get_six_frames()` utilizando las primitivas `seq.reverse_complement()` y `seq.translate()`, reproduciendo el comportamiento de la función de BioPerl.
 
 ### Resultados
 
@@ -66,6 +67,10 @@ Se desarrolló el script `src/ex1_reading_frames.py` que realiza las siguientes 
 
 **El frame correcto es el +2**, con 3192 aminoácidos antes del primer codón de stop, coherente con el tamaño conocido de la huntingtina humana (~3144 aa). Los otros 5 marcos producen proteínas truncadas de menos de 132 aminoácidos, lo que indica que no corresponden al marco de lectura real.
 
+### Conclusión del ejercicio
+
+Lo que más me llamó la atención al ver los resultados fue la diferencia de longitudes: el frame +2 produce 3192 aminoácidos antes del primer stop, y el segundo mejor llega solo a 131. No hacía falta saber de antemano cuál era el correcto — la diferencia es tan grande que se ve sola. Igual, en este ejercicio no determinamos el frame correcto: eso lo confirmamos recién en el ejercicio 2 con BLAST, que es el criterio más sólido.
+
 ---
 
 ## 4. Ejercicio 2a — BLAST
@@ -74,12 +79,25 @@ Se desarrolló el script `src/ex1_reading_frames.py` que realiza las siguientes 
 
 Se desarrolló el script `src/ex2_blast.py` que:
 
-1. Extrae la secuencia proteica del frame +2 del archivo `output/orfs.fasta`
-2. Ejecuta una búsqueda **blastp remota** contra la base de datos SwissProt del NCBI usando `Bio.Blast.NCBIWWW`
-3. Guarda el resultado completo en `output/blast.out` en formato XML
-4. Parsea el resultado y muestra los 10 mejores hits con E-value, porcentaje de identidad y score
+1. Lee los 6 frames del archivo `output/orfs.fasta` (output del Ejercicio 1)
+2. Ejecuta una búsqueda **blastp remota** contra SwissProt del NCBI para cada frame usando `Bio.Blast.NCBIWWW`
+3. Guarda todos los resultados en `output/blast.xml` (para el Ejercicio 3) y en `output/blast.out` (reporte legible en texto plano)
+4. Muestra un resumen por frame indicando cuántos hits significativos obtuvo cada uno
 
 ### Resultados
+
+El BLAST remoto se corrió sobre los 6 frames para identificar el correcto sin conocimiento previo. Solo el frame +2 produjo hits significativos:
+
+| Frame | aa antes del stop | Hits significativos | Mejor E-value |
+|-------|-------------------|---------------------|---------------|
+| +1 | 131 | 0 | — |
+| -1 | 23 | 0 (E-value: 1.40) | — |
+| **+2** | **3192** | **5** | **0.0** |
+| -2 | 13 | 0 | — |
+| +3 | 27 | 0 | — |
+| -3 | 5 | 0 | — |
+
+Los 5 hits del frame +2:
 
 | # | Proteína | Organismo | Identity | E-value | Score |
 |---|----------|-----------|----------|---------|-------|
@@ -89,23 +107,64 @@ Se desarrolló el script `src/ex2_blast.py` que:
 | 4 | Huntingtin (HD_TAKRU) | *Takifugu rubripes* | 69.7% | 0.0 | 11538 |
 | 5 | HD protein homolog | *Dictyostelium discoideum* | 28.8% | 8.22e-19 | 244 |
 
+### BLAST local
+
+Además del BLAST remoto, se ejecutó un BLAST local contra una copia descargada de SwissProt (482.697 secuencias). Se descargó la base de datos en formato FASTA desde el FTP del NCBI y se la formateó con `makeblastdb`. El query utilizado fue el mismo que en el BLAST remoto: la secuencia proteica del frame +2 extraída de `output/orfs.fasta` (3192 aa). El comando ejecutado fue:
+
+```
+blastp.exe -db C:\Users\herna\facu\bioinformatica-2026\tp-bioinformatica-2026\data\swissprotdb\swissprot -query C:\Users\herna\facu\bioinformatica-2026\tp-bioinformatica-2026\output\orfs.fasta -out C:\Users\herna\facu\bioinformatica-2026\tp-bioinformatica-2026\output\local-ncbi-blast-repos.txt
+```
+
+El resumen de hits significativos producido por BLAST para el frame +2:
+
+```
+Query= NM_002111.8_frame_+2
+
+Sequences producing significant alignments:                          (Bits)  Value
+
+P42858.2 RecName: Full=Huntingtin [Homo sapiens]                     6397    0.0
+P42859.2 RecName: Full=Huntingtin [Mus musculus]                     5616    0.0
+P51111.1 RecName: Full=Huntingtin [Rattus norvegicus]                5589    0.0
+P51112.1 RecName: Full=Huntingtin [Takifugu rubripes]                4424    0.0
+Q76P24.1 RecName: Full=HD protein homolog [Dictyostelium discoideum]   97.4    3e-18
+```
+
+Los resultados son consistentes con el BLAST remoto, confirmando ambos análisis:
+
+| # | Accesión | Proteína | Organismo | Identidad | E-value | Bit score |
+|---|----------|----------|-----------|-----------|---------|-----------|
+| 1 | P42858.2 | Huntingtin (HD_HUMAN) | *Homo sapiens* | 99% (3142/3144) | 0.0 | 6397 |
+| 2 | P42859.2 | Huntingtin (HD_MOUSE) | *Mus musculus* | 91% (2792/3063) | 0.0 | 5616 |
+| 3 | P51111.1 | Huntingtin (HD_RAT) | *Rattus norvegicus* | 91% (2781/3063) | 0.0 | 5589 |
+| 4 | P51112.1 | Huntingtin (HD_TAKRU) | *Takifugu rubripes* | 70% (2245/3223) | 0.0 | 4424 |
+| 5 | Q76P24.1 | HD protein homolog | *Dictyostelium discoideum* | 29% | 3e-18 | 97.4 |
+
+El hit 1 muestra 99% (3142/3144) y no 100% porque la traducción del frame +2 incluye 2 aminoácidos extra en el N-terminal respecto a la secuencia curada de SwissProt (P42858.2, 3142 aa), lo que genera 2 gaps en el alineamiento. Esto es esperable: el frame +2 traduce desde la posición 2 del mRNA crudo, mientras que la secuencia SwissProt representa la proteína procesada y anotada manualmente.
+
+
 ---
 
 ## 5. Ejercicio 2b — Interpretación del resultado BLAST
 
 ### Significado de los valores estadísticos
 
-**E-value (Expect value):** representa la probabilidad de encontrar un hit con esa puntuación por azar en una base de datos del tamaño de SwissProt. Un E-value de 0.0 significa que la probabilidad es tan pequeña que Python la redondea a cero — el hit es real con absoluta certeza. El hit 5 con E-value de 8.22e-19 también es estadísticamente significativo: implica que hay 1 en 10^19 posibilidades de que esa similitud sea producto del azar.
+**E-value (Expect value):** es la cantidad de hits que esperarías encontrar por azar en una base de datos del tamaño de SwissProt con una puntuación igual o mejor. Un E-value de 0.0 significa que esa probabilidad es tan pequeña que Python la redondea a cero — el hit es real. El hit 5 (Dictyostelium) con E-value de 8.22e-19 también es significativo: hay 1 en 10^19 chances de que esa similitud sea producto del azar. En general, se considera significativo cualquier E-value menor a 0.001.
 
 **Identity %:** porcentaje de aminoácidos idénticos en el alineamiento. Los hits 2, 3 y 4 (ratón, rata y pez globo) presentan alta identidad con la huntingtina humana, lo que indica que el gen HTT está fuertemente conservado en vertebrados.
 
-**Bit score:** medida normalizada de la calidad del alineamiento, independiente del tamaño de la base de datos. A mayor bit score, mejor es el alineamiento.
+**Score:** mide la calidad del alineamiento sumando puntos por cada posición — aminoácidos idénticos suman más, similares suman menos, gaps restan. Existen dos variantes: el **raw score** depende de los parámetros de configuración usados y no es comparable entre distintas corridas; el **bit score** es una versión normalizada del raw score que sí es comparable entre cualquier corrida de BLAST. Por eso el BLAST remoto y el local reportan scores distintos para los mismos hits: el remoto usa raw score y el local bit score.
 
 ### Interpretación biológica
 
 Los primeros 4 hits corresponden a la huntingtina de otros vertebrados, con identidades superiores al 69%. Esto demuestra que HTT es un gen altamente conservado en vertebrados, lo que implica que cumple funciones celulares fundamentales más allá de la patología asociada en humanos.
 
-El hit más revelador es el número 5: *Dictyostelium discoideum*, un organismo unicelular (ameba) que divergió de los animales hace aproximadamente 1.000 millones de años. La presencia de un homólogo de huntingtina con 28.8% de identidad en este organismo primitivo indica que el gen HTT tiene una antigüedad evolutiva extraordinaria y cumple funciones celulares básicas conservadas desde los inicios de la vida eucariótica.
+El hit más sorprendente es el número 5: *Dictyostelium discoideum*, que es una ameba unicelular. No esperábamos encontrar un homólogo de huntingtina en un organismo tan distinto a los vertebrados. Con 28.8% de identidad todavía tiene regiones similares, lo que sugiere que este gen existe desde hace muchísimo tiempo y probablemente cumple alguna función básica en la célula.
+
+### Conclusión del ejercicio
+
+Correr BLAST sobre los 6 frames sin saber cuál era el correcto resultó ser la forma más directa de identificarlo: solo el frame +2 dio hits reales, todos los demás no encontraron nada. Eso ya responde la pregunta del ejercicio 1.
+
+Lo que no esperaba era la ameba. Que exista un homólogo en *Dictyostelium discoideum* me hizo entender que la huntingtina no es solo una proteína asociada a una enfermedad humana — debe tener alguna función más básica que se conservó a lo largo de la evolución. También fue útil comparar el BLAST remoto con el local: los dos dieron los mismos 5 hits en el mismo orden, lo que me da más confianza en los resultados.
 
 ---
 
@@ -141,9 +200,17 @@ HD_DICDI   ----------------------------------------------------------MD
 
 La región de repeticiones de glutamina (Q) en el extremo N-terminal de la proteína es directamente observable en el alineamiento. Los humanos presentan una región polyQ significativamente más extensa que el resto de los vertebrados, y es en esta misma región donde la expansión patológica de repeticiones CAG causa la Enfermedad de Huntington. Esta observación conecta directamente el análisis bioinformático con el mecanismo molecular de la enfermedad.
 
-**Conservación entre vertebrados:** las secuencias de humano, ratón, rata y pez globo muestran amplias regiones de alta conservación (`*` y `:`), especialmente en la mitad C-terminal de la proteína, donde se encuentran los dominios HEAT repeats responsables de las interacciones proteína-proteína.
+**Conservación entre vertebrados:** las secuencias de humano, ratón, rata y pez globo muestran amplias regiones de alta conservación (`*` y `:`), especialmente en la mitad C-terminal de la proteína, donde se concentran los dominios funcionalmente conservados.
 
 **Divergencia con Dictyostelium:** el alineamiento con la ameba muestra menor conservación general, aunque persisten bloques conservados distribuidos a lo largo de toda la secuencia, corroborando el origen evolutivo antiguo del gen.
+
+### Conclusión del ejercicio
+
+Al ver el alineamiento lo primero que se nota es que ratón y rata son casi iguales a la secuencia humana, lo cual tiene sentido porque son mamíferos. El pez globo ya diverge más pero todavía comparte regiones. La ameba tiene la mayor cantidad de gaps y es la más distinta, pero que aparezca en el alineamiento con bloques conservados es lo que más me sorprendió de todo el trabajo. También fue interesante poder ver directamente en el alineamiento la región de glutaminas (Q) que causa la enfermedad — los humanos tienen una cadena mucho más larga que el resto.
+
+![Alineamiento múltiple de huntingtina](../img/alineamiento.png)
+
+*Resultado completo del MSA disponible en: https://www.ebi.ac.uk/jdispatcher/msa/clustalo/summary?jobId=clustalo-I20260526-034619-0482-90639946-p1m*
 
 ---
 

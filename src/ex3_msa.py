@@ -10,7 +10,7 @@ from Bio.Blast import NCBIXML
 # email requerido por NCBI para identificar al usuario en consultas remotas
 Entrez.email = "hernanhrib@gmail.com"
 
-BLAST_FILE = "output/blast.out"        # reporte del Ejercicio 2
+BLAST_FILE = "output/blast.xml"        # XML del Ejercicio 2
 SEQUENCES_FILE = "output/msa_input.fasta"  # secuencias a alinear
 
 # extraer los IDs de las proteínas encontradas en el BLAST
@@ -19,11 +19,14 @@ print("Leyendo resultados del BLAST...")
 with open(BLAST_FILE) as f:
     blast_records = list(NCBIXML.parse(f))
 
+# el hit_id tiene formato: sp|P42858.2|HD_HUMAN
+# se parte por "|" → ["sp", "P42858.2", "HD_HUMAN"]
+# se toma el índice 1 → "P42858.2" (el ID de la proteína en NCBI)
 hit_ids = []
 for blast_record in blast_records:
     for alignment in blast_record.alignments:
         parts = alignment.hit_id.split("|")
-        if len(parts) >= 2:
+        if len(parts) >= 2:  # validación: descarta IDs con formato inesperado
             hit_ids.append(parts[1])
 
 print(f"Hits encontrados: {hit_ids}")
