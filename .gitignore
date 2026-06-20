@@ -3,6 +3,7 @@ data/swissprot
 data/swissprot.gz
 data/swissprot/
 data/swissprotdb/
+data/prosite/
 __pycache__/
 *.pyc
 .env

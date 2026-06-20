@@ -31,6 +31,7 @@ docker compose run tp python src/ex1_reading_frames.py
 docker compose run tp python src/ex2_blast.py
 docker compose run tp python src/ex3_msa.py
 docker compose run tp python src/ex4_blast_parser.py "Mus musculus"
+docker compose run tp python src/ex5_emboss.py
 ```
 
 ---
@@ -47,12 +48,16 @@ tp-bioinformatica-2026/
 │   ├── orfs.fasta            # 6 reading frames traducidos (output Ej1)
 │   ├── blast.out             # reporte BLAST (output Ej2, input Ej4)
 │   ├── msa.aln               # alineamiento múltiple (output Ej3)
-│   └── ex4_hits.fasta        # FASTA de hits filtrados por pattern (output Ej4)
+│   ├── ex4_hits.fasta        # FASTA de hits filtrados por pattern (output Ej4)
+│   ├── ex5_orfs.fasta        # ORFs traducidos por getorf (output Ej5)
+│   ├── ex5_longest_orf.fasta # ORF más largo = huntingtina 3144 aa (output Ej5)
+│   └── ex5_domains.txt        # dominios PROSITE de la proteína (output Ej5)
 ├── src/
 │   ├── ex1_reading_frames.py
 │   ├── ex2_blast.py
 │   ├── ex3_msa.py
-│   └── ex4_blast_parser.py
+│   ├── ex4_blast_parser.py
+│   └── ex5_emboss.py
 └── informe/
     └── informe_avance.pdf
 ```
@@ -69,8 +74,8 @@ tp-bioinformatica-2026/
 - [x] Fase 5 — Ejercicio 3: MSA de HTT en 5 especies (humano, ratón, rata, pez globo, Dictyostelium) → `output/msa.aln`
 - [x] Fase 6 — Informe de avance PDF
 - [x] Fase 7 — Ejercicio 4: parser de `blast.out` por pattern + descarga FASTA de hits → `output/ex4_hits.fasta`
-- [ ] Fase 8 — Ejercicio 5: EMBOSS (getorf + patmatmotifs/PROSITE)
-- [ ] Fase 9 — Ejercicio 6: bases de datos biológicas (Gene, HomoloGene, Ensembl, UniProt, GO, dbSNP)
+- [x] Fase 8 — Ejercicio 5: EMBOSS getorf (ORF 3144 aa) + patmatmotifs/PROSITE → `output/ex5_domains.txt` (4 motivos: AMIDATION×2, LEUCINE_ZIPPER, TYR_PHOSPHO_SITE_2)
+- [~] Fase 9 — Ejercicio 6: bases de datos biológicas → `entregables/ex6_bases_de_datos.md` (draft completo a-g; falta verificar números en vivo + capturas 🔎)
 - [ ] Fase 10 — Ejercicio 7: presentación
 
 ---
@@ -122,3 +127,15 @@ docker compose run tp python src/ex4_blast_parser.py "Mus musculus"
 # input:  output/blast.out + Pattern (arg, default "Mus musculus")
 # output: output/ex4_hits.fasta
 ```
+
+### Ejercicio 5 — EMBOSS (ORFs + dominios PROSITE)
+
+Pipeline con programas EMBOSS: `getorf` calcula los ORFs del mRNA y los traduce a proteína; se selecciona el ORF más largo (la huntingtina, 3144 aa). Luego se descarga la base PROSITE (`prosite.dat` + `prosite.doc`), se indexa con `prosextract` y se analizan los dominios/motivos funcionales de la proteína con `patmatmotifs`.
+
+```bash
+docker compose run tp python src/ex5_emboss.py
+# input:  data/NM_002111.gb
+# output: output/ex5_orfs.fasta, output/ex5_longest_orf.fasta, output/ex5_domains.txt
+```
+
+Motivos PROSITE encontrados en la huntingtina: **AMIDATION** (×2), **LEUCINE_ZIPPER**, **TYR_PHOSPHO_SITE_2**. La base PROSITE se cachea en `data/prosite/` (ignorada por git, ~30 MB).
