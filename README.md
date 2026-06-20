@@ -30,6 +30,7 @@ docker compose up --build
 docker compose run tp python src/ex1_reading_frames.py
 docker compose run tp python src/ex2_blast.py
 docker compose run tp python src/ex3_msa.py
+docker compose run tp python src/ex4_blast_parser.py "Mus musculus"
 ```
 
 ---
@@ -44,12 +45,14 @@ tp-bioinformatica-2026/
 │   └── NM_002111.gbk        # mRNA de HTT en formato GenBank (input Ej1)
 ├── output/
 │   ├── orfs.fasta            # 6 reading frames traducidos (output Ej1)
-│   ├── blast.out             # reporte BLAST (output Ej2)
-│   └── msa.aln               # alineamiento múltiple (output Ej3)
+│   ├── blast.out             # reporte BLAST (output Ej2, input Ej4)
+│   ├── msa.aln               # alineamiento múltiple (output Ej3)
+│   └── ex4_hits.fasta        # FASTA de hits filtrados por pattern (output Ej4)
 ├── src/
 │   ├── ex1_reading_frames.py
 │   ├── ex2_blast.py
-│   └── ex3_msa.py
+│   ├── ex3_msa.py
+│   └── ex4_blast_parser.py
 └── informe/
     └── informe_avance.pdf
 ```
@@ -64,7 +67,11 @@ tp-bioinformatica-2026/
 - [x] Fase 3 — Ejercicio 2a: BLAST remoto → `output/blast.out` (5 hits, top hit 99.9% identity humano, hit 5 Dictyostelium discoideum 28.8% — gen de ~1000M años de antigüedad)
 - [x] Fase 4 — Ejercicio 2b: interpretación de resultados BLAST
 - [x] Fase 5 — Ejercicio 3: MSA de HTT en 5 especies (humano, ratón, rata, pez globo, Dictyostelium) → `output/msa.aln`
-- [ ] Fase 6 — Informe de avance PDF
+- [x] Fase 6 — Informe de avance PDF
+- [x] Fase 7 — Ejercicio 4: parser de `blast.out` por pattern + descarga FASTA de hits → `output/ex4_hits.fasta`
+- [ ] Fase 8 — Ejercicio 5: EMBOSS (getorf + patmatmotifs/PROSITE)
+- [ ] Fase 9 — Ejercicio 6: bases de datos biológicas (Gene, HomoloGene, Ensembl, UniProt, GO, dbSNP)
+- [ ] Fase 10 — Ejercicio 7: presentación
 
 ---
 
@@ -104,4 +111,14 @@ Descarga las secuencias de HTT de 3+ especies encontradas en el BLAST y realiza 
 ```bash
 docker compose run tp python src/ex3_msa.py
 # output: output/msa.aln
+```
+
+### Ejercicio 4 — Parser de salida BLAST
+
+Parsea el reporte `output/blast.out` (Ej2) y filtra los hits cuya descripción contiene un Pattern dado como parámetro (ej. `"Mus musculus"`, case-insensitive). Punto extra: para cada hit que matchea extrae su ACCESSION y descarga la secuencia completa en FASTA desde NCBI (`Bio.Entrez`, equivalente a `Bio::DB::GenBank`).
+
+```bash
+docker compose run tp python src/ex4_blast_parser.py "Mus musculus"
+# input:  output/blast.out + Pattern (arg, default "Mus musculus")
+# output: output/ex4_hits.fasta
 ```
