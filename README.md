@@ -75,7 +75,7 @@ tp-bioinformatica-2026/
 - [x] Fase 6 — Informe de avance PDF
 - [x] Fase 7 — Ejercicio 4: parser de `blast.out` por pattern + descarga FASTA de hits → `output/ex4_hits.fasta`
 - [x] Fase 8 — Ejercicio 5: EMBOSS getorf (ORF 3144 aa) + patmatmotifs/PROSITE → `output/ex5_domains.txt` (4 motivos: AMIDATION×2, LEUCINE_ZIPPER, TYR_PHOSPHO_SITE_2)
-- [~] Fase 9 — Ejercicio 6: bases de datos biológicas → `entregables/ex6_bases_de_datos.md` (draft completo a-g; falta verificar números en vivo + capturas 🔎)
+- [x] Fase 9 — Ejercicio 6: bases de datos biológicas → `entregables/ex6_bases_de_datos.md` (a-g completo, números verificados en vivo 24/06/2026: Ensembl 412 ortólogos / 24 transcriptos, ClinVar Variation ID 409. Solo falta sacar capturas 🔎 para Ej7)
 - [ ] Fase 10 — Ejercicio 7: presentación
 
 ---

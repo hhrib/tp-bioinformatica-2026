@@ -12,7 +12,7 @@ La Enfermedad de Huntington (EH) es una enfermedad hereditaria catalogada en OMI
 
 Lo que más nos llamó la atención al investigarla es que no existen portadores sanos: cualquier persona que herede el alelo mutado va a desarrollar la enfermedad en algún momento de su vida. Eso la hace diferente a la mayoría de las enfermedades hereditarias.
 
-**Causa molecular:** la enfermedad es causada por una expansión de repeticiones del triplete CAG en el gen HTT. En personas sanas el número de repeticiones es menor a 36; cuando supera ese umbral, la proteína producida se vuelve tóxica para las neuronas. A mayor número de repeticiones, más grave y más temprana es la enfermedad.
+**Causa molecular:**la elegimos por ser una enfermedad conocida y hereditaria
 
 ### Gen elegido: HTT (Huntingtin)
 
