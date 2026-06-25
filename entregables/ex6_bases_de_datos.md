@@ -2,17 +2,14 @@
 **Gen:** HTT (Huntingtin) · **Enfermedad:** Enfermedad de Huntington (OMIM #143100)
 **NCBI Gene ID:** 3064 · **UniProt:** P42858 · **Ensembl:** ENSG00000197386
 
-> [!check] Números verificados en vivo (junio 2026)
-> Los conteos (ortólogos, transcriptos, exones, RefSeq, ClinVar) fueron **confirmados contra las
-> bases en vivo el 24/06/2026**. Las bases se actualizan, así que si re-entregás más adelante,
-> re-chequeá. Lo único pendiente: **sacar las capturas de pantalla** de los puntos 🔎 para la
-> presentación (Ej7).
+*Datos verificados contra las bases en vivo en junio de 2026. Como las bases se actualizan
+periódicamente, los conteos podrían variar en el futuro.*
 
 ---
 
 ## a) Gen / proteína de interés — NCBI Gene
 
-🔎 **Link Entrez Gene:** https://www.ncbi.nlm.nih.gov/gene/3064
+**Link Entrez Gene:** https://www.ncbi.nlm.nih.gov/gene/3064
 
 Entramos a la página del gen en NCBI Gene y de ahí sacamos los datos principales. El gen se llama
 **HTT** (Huntingtin) y tiene el ID **3064**. Está en el **cromosoma 4** (posición 4p16.3) y es un
@@ -57,13 +54,13 @@ bases biológicas se van actualizando y reemplazando.
 
 ![HomoloGene redirige a NCBI Datasets / Gene (discontinuada)](capturas/ex6_b_homologene_retired.png)
 
-**NCBI Orthologs (el reemplazo de HomoloGene):** 🔎 https://www.ncbi.nlm.nih.gov/datasets/gene/3064/#orthologs
+**NCBI Orthologs (el reemplazo de HomoloGene):** https://www.ncbi.nlm.nih.gov/datasets/gene/3064/#orthologs
 Acá sí encontramos los datos. NCBI lista **849 genes ortólogos** de HTT, es decir, versiones de este
 mismo gen repartidas en muchísimas especies distintas.
 
 ![Ortólogos de HTT en NCBI Datasets (849 genes)](capturas/ex6_b_ncbi_orthologs.png)
 
-**Ensembl (Comparative Genomics / orthologues):** 🔎
+**Ensembl (Comparative Genomics / orthologues):**
 https://www.ensembl.org/Homo_sapiens/Gene/Compara_Ortholog?g=ENSG00000197386
 Esta base sí está activa. Comparó el gen HTT contra **199 especies** y encontró que tiene un gen
 equivalente (ortólogo) en **190 de ellas**:
@@ -99,14 +96,14 @@ célula puede armar **versiones distintas** del plato (cambiando o salteando alg
 versión es un **transcripto**, y esa "edición" de la receta se llama **splicing alternativo**. Acá lo
 que hicimos fue ver cuántas versiones distintas de HTT figuran en cada base.
 
-**NCBI (RefSeq):** 🔎 https://www.ncbi.nlm.nih.gov/gene/3064 (sección *RefSeq transcripts*)
+**NCBI (RefSeq):** https://www.ncbi.nlm.nih.gov/gene/3064 (sección *RefSeq transcripts*)
 En NCBI encontramos solo **2 transcriptos**: `NM_001388492.1` y `NM_002111.8` (este último es el que
 usamos en el TP). Son pocos porque NCBI los **revisa a mano**, así que solo deja los que están bien
 confirmados.
 
 ![Transcriptos RefSeq de HTT en NCBI (2)](capturas/ex6_c_ncbi.png)
 
-**Ensembl:** 🔎 https://www.ensembl.org/Homo_sapiens/Gene/Summary?g=ENSG00000197386
+**Ensembl:** https://www.ensembl.org/Homo_sapiens/Gene/Summary?g=ENSG00000197386
 Ensembl, en cambio, lista **24 transcriptos** para HTT. Muchos más que NCBI, porque esta base los
 detecta de forma automática e incluye también versiones más raras o poco usadas.
 
@@ -206,7 +203,7 @@ veníamos viendo en los puntos anteriores.
 Qué es esto en simple: un **pathway** es una "cadena de pasos" donde varias proteínas trabajan juntas
 para lograr algo en la célula, como una línea de producción. Acá vimos en qué cadenas participa HTT.
 
-**KEGG:** 🔎 https://www.genome.jp/dbget-bin/www_bget?hsa:3064
+**KEGG:** https://www.genome.jp/dbget-bin/www_bget?hsa:3064
 KEGG ubica a HTT en dos pathways, los dos relacionados con la enfermedad:
 - **hsa05016 — Huntington disease** (la vía propia de la enfermedad)
 - **hsa05022 — Pathways of neurodegeneration** (vía general de enfermedades neurodegenerativas)
