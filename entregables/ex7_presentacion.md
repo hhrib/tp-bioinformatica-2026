@@ -20,9 +20,10 @@ style: |
 # Enfermedad de Huntington
 ## Pipeline bioinformático del gen *HTT*
 
-Introducción a la Bioinformática — UTN FRBA · 2026
+Introducción a la Bioinformática (K5061) — UTN FRBA · 2026
+Profesor: Patricio Yankilevich
 
-**Integrantes:** TBD
+**Integrantes:** Tomás Guillermo León · Gustavo Di Peppe · Alejo Gurfein · Hernán Hrib
 
 ---
 
@@ -215,4 +216,4 @@ docker compose run tp python src/ex4_blast_parser.py "Mus musculus"
 
 ¿Preguntas?
 
-<span class="small">Repo: github.com/TBD/tp-bioinformatica-2026</span>
+<span class="small">Repo: github.com/hhrib/tp-bioinformatica-2026</span>
