@@ -219,7 +219,7 @@ Al ver el alineamiento lo primero que se nota es que ratón y rata son casi igua
 
 ---
 
-## 7. Conclusión
+## 7. Conclusión parte 1
 
 Este trabajo me resultó más interesante de lo que esperaba. Empezamos con un archivo de texto en formato GenBank y terminamos viendo en el alineamiento la región exacta que causa la enfermedad.
 
@@ -227,43 +227,11 @@ Lo que más me quedó fue la progresión: el ejercicio 1 traduce los 6 frames si
 
 La sorpresa fue la ameba. Que un organismo tan distinto a nosotros tenga una versión del mismo gen sugiere que la proteína cumple alguna función muy básica — algo que no habría notado sin hacer el análisis. Y ver en el alineamiento que la cadena de Q repetidas es más larga en humanos que en cualquier otra especie cierra el círculo con la causa molecular de la enfermedad.
 
----
-
-## Anexo — Cómo ejecutar los scripts
-
-**Requisitos:** Docker Desktop instalado y corriendo.
-
-```bash
-# Clonar el repositorio
-git clone https://github.com/[usuario]/tp-bioinformatica-2026
-
-# Entrar al contenedor
-docker compose run tp bash
-
-# Ejecutar ejercicios
-python src/ex1_reading_frames.py   # Genera output/orfs.fasta
-python src/ex2_blast.py            # Genera output/blast.out
-python src/ex3_msa.py              # Descarga secuencias para MSA
-```
-
-Los archivos de input (`data/NM_002111.gb`) y output (`output/`) se encuentran en el repositorio.
-
 <div class="page-break"></div>
 
-# Trabajo Práctico Parte 2 — Informe
-
-**Introducción a la Bioinformática — UTN FRBA**
-**Fecha de entrega: 26 de junio de 2026**
-
-Esta segunda parte continúa el trabajo sobre el gen **HTT** (Huntingtin) y la enfermedad de
-Huntington iniciado en la Parte 1. Acá se desarrollan los ejercicios 4 (parser de la salida de
-BLAST), 5 (análisis con EMBOSS) y 6 (trabajo con bases de datos biológicas). El ambiente de trabajo
-es el mismo de la Parte 1: Python 3.11 con BioPython, EMBOSS y BLAST+ dentro de un contenedor Docker,
-con el código versionado en Git.
-
 ---
 
-## 1. Ejercicio 4 — Parser de la salida de BLAST
+## 8. Ejercicio 4 — Parser de la salida de BLAST
 
 ### Descripción
 
@@ -294,9 +262,9 @@ docker compose run tp python src/ex4_blast_parser.py "Mus musculus"
 Ejecutando con el Pattern `"Mus musculus"` sobre el `blast.out` del Ejercicio 2, el script encontró
 **1 hit** que coincide:
 
-| Frame | Accession | Descripción |
-|-------|-----------|-------------|
-| +2 | P42859.2 | Huntingtin — *Mus musculus* (ratón) |
+| Frame | Accession | Descripción                         |
+| ----- | --------- | ----------------------------------- |
+| +2    | P42859.2  | Huntingtin — *Mus musculus* (ratón) |
 
 A continuación descargó la secuencia completa de ese hit desde NCBI y la guardó en
 `output/ex4_hits.fasta`:
@@ -319,7 +287,7 @@ ejemplo, un alineamiento) sin pasos manuales.
 
 ---
 
-## 2. Ejercicio 5 — EMBOSS (ORFs y dominios PROSITE)
+## 9. Ejercicio 5 — EMBOSS (ORFs y dominios PROSITE)
 
 ### Descripción
 
@@ -356,12 +324,12 @@ habíamos identificado en la Parte 1.
 
 El análisis de dominios con `patmatmotifs` contra PROSITE encontró **4 motivos funcionales**:
 
-| Motivo | Posición (aa) | Qué es |
-|--------|---------------|--------|
-| AMIDATION | 1532–1535 | Sitio de amidación |
-| AMIDATION | 2545–2548 | Sitio de amidación |
-| LEUCINE_ZIPPER | 1446–1467 | Patrón "cremallera de leucina" |
-| TYR_PHOSPHO_SITE_2 | 2716–2723 | Sitio de fosforilación de tirosina |
+| Motivo             | Posición (aa) | Qué es                             |
+| ------------------ | ------------- | ---------------------------------- |
+| AMIDATION          | 1532–1535     | Sitio de amidación                 |
+| AMIDATION          | 2545–2548     | Sitio de amidación                 |
+| LEUCINE_ZIPPER     | 1446–1467     | Patrón "cremallera de leucina"     |
+| TYR_PHOSPHO_SITE_2 | 2716–2723     | Sitio de fosforilación de tirosina |
 
 ### Conclusión del ejercicio
 
@@ -374,7 +342,7 @@ una cremallera de leucina) dan una primera pista de las regiones funcionales de 
 
 ---
 
-## 3. Ejercicio 6 — Trabajo con Bases de Datos Biológicas
+## 10. Ejercicio 6 — Trabajo con Bases de Datos Biológicas
 
 **Gen:** HTT (Huntingtin) · **Enfermedad:** Enfermedad de Huntington (OMIM #143100)
 **NCBI Gene ID:** 3064 · **UniProt:** P42858 · **Ensembl:** ENSG00000197386
@@ -438,11 +406,11 @@ https://www.ensembl.org/Homo_sapiens/Gene/Compara_Ortholog?g=ENSG00000197386
 Esta base sí está activa. Comparó el gen HTT contra **199 especies** y encontró que tiene un gen
 equivalente (ortólogo) en **190 de ellas**:
 
-| Tipo de relación | Qué significa | Especies |
-|------------------|---------------|----------|
-| 1:1 | un gen humano = un gen en la otra especie | **180** |
-| 1:varios | un gen humano = varios en la otra (duplicaciones) | 10 |
-| sin ortólogo | no se encontró equivalente | 9 |
+| Tipo de relación | Qué significa                                     | Especies |
+| ---------------- | ------------------------------------------------- | -------- |
+| 1:1              | un gen humano = un gen en la otra especie         | **180**  |
+| 1:varios         | un gen humano = varios en la otra (duplicaciones) | 10       |
+| sin ortólogo     | no se encontró equivalente                        | 9        |
 
 ![Ortólogos de HTT en Ensembl Compara (199 especies)](capturas/ex6_b_ensembl.png)
 
@@ -643,10 +611,20 @@ común en personas de ascendencia japonesa, china y africana.
 **Requisitos:** Docker Desktop instalado y corriendo.
 
 ```bash
+# Clonar el repositorio
+git clone https://github.com/hhrib/tp-bioinformatica-2026
+
 # Entrar al contenedor
 docker compose run tp bash
 
-# Ejercicios de la Parte 2
+# Parte 1
+python src/ex1_reading_frames.py                # Genera output/orfs.fasta
+python src/ex2_blast.py                          # Genera output/blast.out
+python src/ex3_msa.py                            # Descarga secuencias para el MSA
+
+# Parte 2
 python src/ex4_blast_parser.py "Mus musculus"   # Genera output/ex4_hits.fasta
-python src/ex5_emboss.py                         # Genera output/ex5_*.fasta y ex5_domains.txt
+python src/ex5_emboss.py                          # Genera output/ex5_*.fasta y ex5_domains.txt
 ```
+
+Los archivos de input (`data/NM_002111.gb`) y output (`output/`) se encuentran en el repositorio.
